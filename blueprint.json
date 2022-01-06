@@ -1,0 +1,46 @@
+{
+    "blueprint": "confluence_1.2.3.4",
+    "actions": [
+        {
+            "action": "get_vm_hostnames",
+            "operator": "branch",
+            "playbook": "get_vm_hostnames_playbook",
+            "next": "stop"
+        },
+        {
+            "action": "stop",
+            "operator": "branch",
+            "playbook": "stop_cluster_playbook",
+            "next": "node_upgrade",
+            "onFailure": "failure_task1"
+        },
+        {
+            "action": "node_upgrade",
+            "operator": "branch",
+            "playbook": "node_upgrade_playbook",
+            "next": "start_cluster",
+            "onFailure": "email"
+        },
+        {
+            "action": "start_cluster",
+            "operator": "branch",
+            "playbook": "start_cluster_playbook"
+        },
+        {
+            "action": "email",
+            "operator": "python"
+        },
+        {
+            "action": "failure_task1",
+            "operator": "python"
+        },
+        {
+            "action": "failure_task2",
+            "operator": "python"
+        },
+        {
+            "action": "failure_task3",
+            "operator": "python"
+        }
+    ]
+}
